@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0906">
+  <title>girasoli per la mia eleval</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="scena" role="img"
+    aria-label="Un bouquet di girasoli fatto di caratteri: tocca un girasole per leggere il messaggio"></canvas>
+
+  <header class="testata">
+    <h1>girasoli per la mia eleval</h1>
+    <p>per il gay più gay di tutte, gialla come belle</p>
+  </header>
+
+  <p id="aiuto" class="aiuto">trascina per ruotare &middot; rotella per lo zoom &middot; clicca un girasole</p>
+
+  <nav class="comandi" aria-label="Comandi">
+    <button id="btn-bouquet" type="button" hidden>&larr; bouquet</button>
+    <button id="btn-ruota" type="button" aria-pressed="true">ruota</button>
+    <button id="btn-musica" type="button" aria-pressed="true">&#9834; musica</button>
+  </nav>
+
+  <div id="apri" class="apri" role="button" tabindex="0" aria-label="Tocca per aprire">
+    <span>tocca per aprire &#9834;</span>
+  </div>
+  <div id="musica-yt" aria-hidden="true"></div>
+
+  <noscript><p class="aiuto">Serve JavaScript per vedere il bouquet.</p></noscript>
+
+  <script src="script.js"></script>
+</body>
+</html>

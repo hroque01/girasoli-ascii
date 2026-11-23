@@ -1,0 +1,212 @@
+/* mobile first: le regole base sono per il telefono, lo schermo grande arriva in fondo */
+:root {
+  --sfondo: #0b0906;
+  --sfondo-alone: #19130b;
+  --testo: #dccfb2;
+  --tenue: #8a7d64;
+  --accento: #f4b81f;
+  --bordo: rgba(220, 207, 178, 0.2);
+  --vetro: rgba(11, 9, 6, 0.62);
+  --font: ui-monospace, "SF Mono", Menlo, Consolas, "Roboto Mono", "DejaVu Sans Mono", monospace;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overscroll-behavior: none;
+}
+
+body {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: radial-gradient(ellipse 90% 60% at 50% 45%, var(--sfondo-alone) 0%, var(--sfondo) 70%);
+  background-color: var(--sfondo);
+  color: var(--testo);
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+canvas {
+  position: fixed;
+  display: block;
+  touch-action: none;
+  cursor: grab;
+}
+canvas.trascina { cursor: grabbing; }
+canvas.sopra-fiore { cursor: pointer; }
+
+/* ── titolo ──────────────────────────── */
+.testata {
+  position: fixed;
+  top: calc(18px + env(safe-area-inset-top));
+  left: 16px;
+  right: 16px;
+  text-align: center;
+  pointer-events: none;
+}
+.testata h1 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--accento);
+  text-shadow: 0 0 18px rgba(244, 184, 31, 0.35);
+}
+.testata p {
+  margin: 8px auto 0;
+  max-width: 32ch;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--tenue);
+}
+
+/* ── comandi ─────────────────────────── */
+.comandi {
+  position: fixed;
+  left: 50%;
+  bottom: calc(16px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  width: max-content;
+}
+
+button {
+  min-height: 42px;
+  padding: 8px 18px;
+  font: inherit;
+  font-size: 13px;
+  color: var(--testo);
+  background: var(--vetro);
+  border: 1px solid var(--bordo);
+  border-radius: 999px;
+  cursor: pointer;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  transition: border-color 0.2s, color 0.2s;
+}
+button[aria-pressed="true"] {
+  color: var(--accento);
+  border-color: rgba(244, 184, 31, 0.42);
+}
+#btn-bouquet {
+  color: var(--accento);
+  border-color: rgba(244, 184, 31, 0.6);
+}
+button:focus-visible {
+  outline: 2px solid var(--accento);
+  outline-offset: 2px;
+}
+
+/* ── suggerimento ────────────────────── */
+.aiuto {
+  position: fixed;
+  left: 50%;
+  bottom: calc(72px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: calc(100vw - 32px);
+  margin: 0;
+  font-size: 12px;
+  text-align: center;
+  color: var(--tenue);
+  pointer-events: none;
+}
+
+/* ── entrata: testi e comandi arrivano quando il bouquet è formato ── */
+.testata, .comandi, .aiuto {
+  opacity: 0;
+  transition: opacity 1.4s ease;
+}
+.comandi { pointer-events: none; }
+body.pronto .testata,
+body.pronto .comandi { opacity: 1; }
+body.pronto .comandi { pointer-events: auto; }
+body.pronto .aiuto {
+  opacity: 1;
+  transition-delay: 0.8s;
+}
+body.pronto .aiuto.nascosto {
+  opacity: 0;
+  transition-delay: 0s;
+}
+
+/* ── apertura: serve un tocco per far partire la musica ── */
+.apri {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: opacity 0.9s ease;
+}
+.apri span {
+  font-size: 14px;
+  letter-spacing: 0.22em;
+  color: var(--accento);
+  text-shadow: 0 0 18px rgba(244, 184, 31, 0.4);
+  animation: respiro 2.4s ease-in-out infinite;
+}
+.apri:focus-visible { outline: none; }
+.apri:focus-visible span { text-decoration: underline; text-underline-offset: 6px; }
+.apri.via {
+  opacity: 0;
+  pointer-events: none;
+}
+@keyframes respiro {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 1; }
+}
+
+/* player di YouTube: fuori dallo schermo, se ne sente solo l'audio */
+#musica-yt {
+  position: fixed;
+  top: 0;
+  left: -400px;
+  width: 200px;
+  height: 200px;
+  pointer-events: none;
+}
+
+/* ── schermo grande ──────────────────── */
+@media (min-width: 700px) {
+  .testata {
+    top: 26px;
+    left: 30px;
+    right: auto;
+    text-align: left;
+  }
+  .testata h1 { font-size: 19px; }
+  .testata p {
+    margin-left: 0;
+    max-width: none;
+    font-size: 13px;
+  }
+  .comandi {
+    top: 22px;
+    right: 22px;
+    bottom: auto;
+    left: auto;
+    transform: none;
+  }
+  button {
+    min-height: 0;
+    padding: 6px 14px;
+    font-size: 12px;
+  }
+  button:hover { border-color: rgba(244, 184, 31, 0.5); }
+  .aiuto { bottom: 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .testata, .comandi, .aiuto { transition: none; }
+  .apri span { animation: none; opacity: 1; }
+}
